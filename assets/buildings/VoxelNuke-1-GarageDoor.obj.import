@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://oe3yeneq2c08"
+path="res://.godot/imported/VoxelNuke-1-GarageDoor.obj-643efcbe1e4e164fa907b852a875e881.mesh"
+
+[deps]
+
+files=["res://.godot/imported/VoxelNuke-1-GarageDoor.obj-643efcbe1e4e164fa907b852a875e881.mesh"]
+
+source_file="res://assets/buildings/VoxelNuke-1-GarageDoor.obj"
+dest_files=["res://.godot/imported/VoxelNuke-1-GarageDoor.obj-643efcbe1e4e164fa907b852a875e881.mesh", "res://.godot/imported/VoxelNuke-1-GarageDoor.obj-643efcbe1e4e164fa907b852a875e881.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

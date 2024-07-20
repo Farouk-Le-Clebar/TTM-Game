@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bb1mbke306hd4"
+path="res://.godot/imported/VoxelNuke-4-Barrel-0.obj-caf8c52bb7a51327042760465b7e406d.mesh"
+
+[deps]
+
+files=["res://.godot/imported/VoxelNuke-4-Barrel-0.obj-caf8c52bb7a51327042760465b7e406d.mesh"]
+
+source_file="res://models/garage/VoxelNuke-4-Barrel-0.obj"
+dest_files=["res://.godot/imported/VoxelNuke-4-Barrel-0.obj-caf8c52bb7a51327042760465b7e406d.mesh", "res://.godot/imported/VoxelNuke-4-Barrel-0.obj-caf8c52bb7a51327042760465b7e406d.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

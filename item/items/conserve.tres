@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemDataConsumable" load_steps=3 format=3 uid="uid://4sg6sgx7t1x0"]
+
+[ext_resource type="Script" path="res://item/item_data_consumable.gd" id="1_25ywv"]
+[ext_resource type="Texture2D" uid="uid://1k1ev1nebsha" path="res://item/tres/conserve.tres" id="2_76pw4"]
+
+[resource]
+script = ExtResource("1_25ywv")
+heal_value = 0
+feed = 20
+thirsty = 0
+name = "Conserve"
+description = "Le fameux rougail saucisses de louis.
+"
+stackable = true
+texture = ExtResource("2_76pw4")
+id = 1

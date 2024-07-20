@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dwf65cgj6026n"]
+
+[ext_resource type="Script" path="res://item/pickUp/pick_up.gd" id="1_um18j"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lsnv7"]
+load_path = "res://.godot/imported/itemsTransparents.png-f18d4644a4566b38bd653207f93cb949.s3tc.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7d5j"]
+atlas = SubResource("CompressedTexture2D_lsnv7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_12t3c"]
+atlas = SubResource("AtlasTexture_q7d5j")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ko12m"]
+radius = 0.280825
+
+[node name="PickUp" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_um18j")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+texture_filter = 4
+texture = SubResource("AtlasTexture_12t3c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ko12m")

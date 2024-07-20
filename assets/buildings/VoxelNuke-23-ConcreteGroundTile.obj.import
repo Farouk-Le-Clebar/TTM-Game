@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c87pvjjuhd7ee"
+path="res://.godot/imported/VoxelNuke-23-ConcreteGroundTile.obj-a0cd302e5000b2afe3ad85be615d2130.mesh"
+
+[deps]
+
+files=["res://.godot/imported/VoxelNuke-23-ConcreteGroundTile.obj-a0cd302e5000b2afe3ad85be615d2130.mesh"]
+
+source_file="res://assets/buildings/VoxelNuke-23-ConcreteGroundTile.obj"
+dest_files=["res://.godot/imported/VoxelNuke-23-ConcreteGroundTile.obj-a0cd302e5000b2afe3ad85be615d2130.mesh", "res://.godot/imported/VoxelNuke-23-ConcreteGroundTile.obj-a0cd302e5000b2afe3ad85be615d2130.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

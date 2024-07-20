@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b3l3du1adheje"
+path="res://.godot/imported/MountainRocks-5.obj-b15f28f8a8acc941eaf44d891e45f62c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/MountainRocks-5.obj-b15f28f8a8acc941eaf44d891e45f62c.mesh"]
+
+source_file="res://assets/biome/MountainRocks-5.obj"
+dest_files=["res://.godot/imported/MountainRocks-5.obj-b15f28f8a8acc941eaf44d891e45f62c.mesh", "res://.godot/imported/MountainRocks-5.obj-b15f28f8a8acc941eaf44d891e45f62c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

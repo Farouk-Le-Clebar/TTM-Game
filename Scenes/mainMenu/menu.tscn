@@ -1,0 +1,122 @@
+[gd_scene load_steps=10 format=3 uid="uid://cqub2byr86pde"]
+
+[ext_resource type="Script" path="res://Scenes/mainMenu/Background.gd" id="1_1sj8k"]
+[ext_resource type="PackedScene" uid="uid://e4ulhtjbx4xh" path="res://Scenes/bacground/background.tscn" id="1_kwhk4"]
+[ext_resource type="Script" path="res://Scenes/mainMenu/continuerButton.gd" id="2_10tm2"]
+[ext_resource type="PackedScene" uid="uid://cflpi3vrf38fa" path="res://Scenes/Game/other_players.tscn" id="2_eysah"]
+[ext_resource type="FontFile" uid="uid://b4kipanibdijo" path="res://assets/font/ROUND8-FOUR.otf" id="3_rfsrb"]
+[ext_resource type="Script" path="res://Scenes/mainMenu/quitterButton.gd" id="4_mrmoo"]
+[ext_resource type="AudioStream" uid="uid://dydwf7mc4gmvc" path="res://assets/music/Silent_Echo.mp3" id="7_axjpv"]
+
+[sub_resource type="Sky" id="Sky_it2vq"]
+
+[sub_resource type="Environment" id="Environment_2hifk"]
+background_mode = 2
+sky = SubResource("Sky_it2vq")
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.860507, 0.874761, 0.897168, 1)
+fog_light_energy = 0.0
+fog_density = 0.4433
+
+[node name="Menu" type="CanvasLayer"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2hifk")
+
+[node name="Background" type="Node3D" parent="."]
+script = ExtResource("1_1sj8k")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="Background/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="Background/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.950086, 0.311987, 0, -0.311987, 0.950086, -0.211587, 0.866198, -8.34172)
+
+[node name="OtherPlayers" parent="Background" instance=ExtResource("2_eysah")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.132, -0.1, -9.505)
+
+[node name="Node3D" parent="Background" instance=ExtResource("1_kwhk4")]
+
+[node name="continuer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -340.0
+offset_top = -120.0
+offset_right = -190.0
+offset_bottom = -80.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(2, 2)
+
+[node name="continuerButton" type="TextureButton" parent="continuer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_10tm2")
+
+[node name="Label" type="Label" parent="continuer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_rfsrb")
+theme_override_font_sizes/font_size = 50
+text = "continuer"
+
+[node name="quitter" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -60.0
+offset_right = 172.0
+offset_bottom = 1.0
+grow_vertical = 0
+
+[node name="quitterButton" type="TextureButton" parent="quitter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_mrmoo")
+
+[node name="Label" type="Label" parent="quitter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_rfsrb")
+theme_override_font_sizes/font_size = 50
+text = "quitter"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_axjpv")
+autoplay = true
+
+[connection signal="pressed" from="continuer/continuerButton" to="continuer/continuerButton" method="_on_pressed"]
+[connection signal="pressed" from="quitter/quitterButton" to="quitter/quitterButton" method="_on_pressed"]

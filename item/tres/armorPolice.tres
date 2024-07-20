@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://c57klapq4w4ki"]
+
+[ext_resource type="Texture2D" uid="uid://n5tj1asq6mhi" path="res://assets/inventory/armorPolice.png" id="1_y3agc"]
+
+[resource]
+atlas = ExtResource("1_y3agc")
+region = Rect2(0, 0, 64, 64)

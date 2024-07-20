@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://w6jetmqa8dtc"
+path="res://.godot/imported/VoxelNuke-8-Door.obj-f53be20169e7d30ecdd5f8ec43b6aa9b.mesh"
+
+[deps]
+
+files=["res://.godot/imported/VoxelNuke-8-Door.obj-f53be20169e7d30ecdd5f8ec43b6aa9b.mesh"]
+
+source_file="res://assets/buildings/VoxelNuke-8-Door.obj"
+dest_files=["res://.godot/imported/VoxelNuke-8-Door.obj-f53be20169e7d30ecdd5f8ec43b6aa9b.mesh", "res://.godot/imported/VoxelNuke-8-Door.obj-f53be20169e7d30ecdd5f8ec43b6aa9b.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

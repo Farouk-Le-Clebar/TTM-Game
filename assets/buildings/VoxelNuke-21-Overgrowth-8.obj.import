@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://beicxjxwback5"
+path="res://.godot/imported/VoxelNuke-21-Overgrowth-8.obj-0d2bc1205f00a42d48d25e1a80a877f7.mesh"
+
+[deps]
+
+files=["res://.godot/imported/VoxelNuke-21-Overgrowth-8.obj-0d2bc1205f00a42d48d25e1a80a877f7.mesh"]
+
+source_file="res://assets/buildings/VoxelNuke-21-Overgrowth-8.obj"
+dest_files=["res://.godot/imported/VoxelNuke-21-Overgrowth-8.obj-0d2bc1205f00a42d48d25e1a80a877f7.mesh", "res://.godot/imported/VoxelNuke-21-Overgrowth-8.obj-0d2bc1205f00a42d48d25e1a80a877f7.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

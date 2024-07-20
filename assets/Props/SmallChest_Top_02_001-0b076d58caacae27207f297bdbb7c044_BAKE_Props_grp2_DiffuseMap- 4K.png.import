@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://nffygaonakdq"
+path.s3tc="res://.godot/imported/SmallChest_Top_02_001-0b076d58caacae27207f297bdbb7c044_BAKE_Props_grp2_DiffuseMap- 4K.png-98de5c667f15aa347c19841d2a91e39a.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "71f8526dff51b240616f7e1a1cde44e1"
+}
+
+[deps]
+
+source_file="res://assets/Props/SmallChest_Top_02_001-0b076d58caacae27207f297bdbb7c044_BAKE_Props_grp2_DiffuseMap- 4K.png"
+dest_files=["res://.godot/imported/SmallChest_Top_02_001-0b076d58caacae27207f297bdbb7c044_BAKE_Props_grp2_DiffuseMap- 4K.png-98de5c667f15aa347c19841d2a91e39a.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

@@ -1,0 +1,14 @@
+MeshInstance3D
+TextureRect
+CanvasLayer
+Sprite2D
+Node3D
+Sprite3D
+CharacterBody3D
+Area3D
+CollisionShape3D
+RigidBody3D
+ColorRect
+StaticBody3D
+RayCast3D
+Control

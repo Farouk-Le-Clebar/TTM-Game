@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b1v04im5p4fn"
+path="res://.godot/imported/VoxelNuke-16-Rooftop-1.obj-4574d1a3daa409ceeed74b85577cc511.mesh"
+
+[deps]
+
+files=["res://.godot/imported/VoxelNuke-16-Rooftop-1.obj-4574d1a3daa409ceeed74b85577cc511.mesh"]
+
+source_file="res://models/garage/VoxelNuke-16-Rooftop-1.obj"
+dest_files=["res://.godot/imported/VoxelNuke-16-Rooftop-1.obj-4574d1a3daa409ceeed74b85577cc511.mesh", "res://.godot/imported/VoxelNuke-16-Rooftop-1.obj-4574d1a3daa409ceeed74b85577cc511.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

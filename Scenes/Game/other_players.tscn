@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cflpi3vrf38fa"]
+
+[ext_resource type="Script" path="res://Scenes/Game/OtherCharacterBody3D.gd" id="1_wbc1n"]
+[ext_resource type="ArrayMesh" uid="uid://cb5aujblrinxb" path="res://assets/characters/Gestapo-2.obj" id="2_3cc18"]
+[ext_resource type="PackedScene" uid="uid://d1r6rix6an4i5" path="res://Scenes/WebSocketScene/web_socket_client.tscn" id="3_5to8j"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0uo0o"]
+
+[node name="OtherPlayers" type="Node3D"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+script = ExtResource("1_wbc1n")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0.332785, 0)
+shape = SubResource("CapsuleShape3D_0uo0o")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
+mesh = ExtResource("2_3cc18")
+
+[node name="WebSocketClient" parent="." instance=ExtResource("3_5to8j")]

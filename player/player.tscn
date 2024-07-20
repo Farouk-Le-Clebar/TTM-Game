@@ -1,0 +1,245 @@
+[gd_scene load_steps=9 format=3 uid="uid://w16pbbuswfb2"]
+
+[ext_resource type="Resource" uid="uid://l5x06pnyh3aq" path="res://player/test_inv.tres" id="1_wjvgg"]
+[ext_resource type="ArrayMesh" uid="uid://cle4u1ge0cfgq" path="res://assets/characters/playerMesh.obj" id="2_g088a"]
+[ext_resource type="Shader" path="res://Scenes/Game/DamageOverlayShader.gdshader" id="5_p7dgl"]
+
+[sub_resource type="GDScript" id="GDScript_a4dbw"]
+script/source = "extends CharacterBody3D
+
+signal toggle_inventory()
+
+@export var inventory_data : InventoryData
+@export var helmet_inventory_data : InventoryDataHelmet
+@export var armor_inventory_data : InventoryDataArmor
+@export var eyes_inventory_data : InventoryDataEyes
+@export var ears_inventory_data : InventoryDataEars
+
+@export var primary_weapon_inventory_data : InventoryDataWeapon
+@export var secondary_weapon_inventory_data : InventoryDataWeapon
+
+@export var weapon_scene : PackedScene
+
+@onready var head = $head
+@onready var camera = $head/Camera3D
+@onready var WeaponPlaceholder = $head/Camera3D/WeaponPlaceholder
+@onready var mesh = $MeshInstance3D
+@onready var MainPlayer = get_parent().get_node(\"WebSocketClient\")
+@onready var interact_ray = $head/Camera3D/InteractRay
+@onready var inventory = $\"../UI/InventoryInterface\"
+@onready var gun_barrel = null
+@onready var shootAnim = null
+
+const SPEED = 2.0
+const JUMP_VELOCITY = 2.5
+const CROUCH_Y_OFFSET = -0.2
+var isCrouch = false
+const SENSITIVITY = 0.003
+var bullet = load(\"res://models/rifles/bullet.tscn\")
+var instanceBullet
+var gravity = ProjectSettings.get_setting(\"physics/3d/default_gravity\")
+var last_position = Vector3()
+
+var weapon_instance : Node = null
+
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	PlayerMager.player = self
+	var json_like_string = '{\"CMD\": \"GP\", \"uid\": \"%s\"}' % [Global.uid]
+	MainPlayer.send(json_like_string)
+	json_like_string = '{\"CMD\": \"GI\", \"uid\": \"%s\"}' % [Global.uid]
+	MainPlayer.send(json_like_string)
+	last_position = global_transform.origin
+	primary_weapon_inventory_data.primary_weapon_changed.connect(_on_primary_weapon_inventory_updated)
+	
+	var aabb = mesh.get_aabb()
+	var center_y = aabb.position.y + aabb.size.y / 2
+	
+	var mesh_transform = mesh.transform
+	mesh_transform.origin.y -= center_y
+	mesh.transform = mesh_transform
+	_load_weapon()
+
+func _load_weapon():
+	if weapon_scene:
+		weapon_instance = weapon_scene.instantiate()
+		camera.add_child(weapon_instance)
+		weapon_instance.global_transform = WeaponPlaceholder.global_transform
+		gun_barrel = weapon_instance.get_node(\"RayCast3D\")
+		shootAnim = weapon_instance.get_node(\"AnimationPlayer\")
+	
+func _unload_weapon():
+	if weapon_instance:
+		weapon_instance.queue_free()
+		weapon_instance = null
+		gun_barrel = null 
+		shootAnim = null
+
+func _input(event):
+	if event is InputEventMouseMotion and !inventory.visible:
+		head.rotate_y(-event.relative.x * SENSITIVITY)
+		camera.rotate_x(-event.relative.y * SENSITIVITY)
+		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-40), deg_to_rad(60))
+		mesh.rotate_y(-event.relative.x * SENSITIVITY)
+		var json_like_string = '{\"CMD\": \"ROT\", \"uid\": \"%s\", \"rotY\": %f}' % [Global.uid, mesh.rotation.y]
+		MainPlayer.send(json_like_string)
+	
+	if Input.is_action_just_pressed(\"inventory\"):
+		toggle_inventory.emit()
+
+	if Input.is_action_just_pressed(\"interact\"):
+		interact()
+
+func interact() -> void:
+	if interact_ray.is_colliding():
+		interact_ray.get_collider().player_interact(self)
+
+func get_drop_position() -> Vector3:
+	var direction = -camera.global_transform.basis.z
+	return camera.global_position + direction
+
+func set_position_player(posX: float, posY: float, posZ: float) -> void:
+	self.global_transform.origin = Vector3(posX, posY, posZ)
+	last_position = global_transform.origin
+
+func _physics_process(delta):
+	# Add the gravity.
+	if inventory.visible:
+		return
+
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Handle MouseClickL
+	if Input.is_action_pressed(\"MouseL\"):
+		if shootAnim and !shootAnim.is_playing():
+			shootAnim.play(\"Shoot\")
+			instanceBullet = bullet.instantiate()
+			instanceBullet.position = gun_barrel.global_position
+			instanceBullet.transform.basis = gun_barrel.global_transform.basis
+			get_parent().add_child(instanceBullet)
+	
+	# Handle crouch.
+	if Input.is_action_pressed(\"crouch\"):
+		if not isCrouch:
+			isCrouch = true
+			camera.transform.origin.y += CROUCH_Y_OFFSET
+	else:
+		if isCrouch:
+			isCrouch = false
+			camera.transform.origin.y -= CROUCH_Y_OFFSET
+
+	var input_dir = Vector2(
+		Input.get_action_strength(\"move_right\") - Input.get_action_strength(\"move_left\"),
+		Input.get_action_strength(\"move_backward\") - Input.get_action_strength(\"move_forward\")
+	)
+	var direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if direction:
+		velocity.x = direction.x * SPEED
+		velocity.z = direction.z * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.z = move_toward(velocity.z, 0, SPEED)
+
+	move_and_slide()
+
+	var current_position = global_transform.origin
+	if current_position != last_position:
+		last_position = current_position
+		var rotation_y = mesh.rotation.y
+		var json_like_string = '{\"CMD\": \"PP\", \"uid\": \"%s\", \"posX\": %f, \"posY\": %f, \"posZ\": %f, \"rotY\": %f}' % [Global.uid, current_position.x, current_position.y, current_position.z, rotation_y]
+		MainPlayer.send(json_like_string)
+		
+func heal(heal_value : int) -> void:
+	Global.life += heal_value
+	if Global.life > 100:
+		Global.life = 100
+	
+func _on_primary_weapon_inventory_updated(weapon_name):
+	print(weapon_name)
+	_unload_weapon()
+	if weapon_name == \"\":
+		print(\"update rien\")
+		return
+	if weapon_name == \"ar15\":
+		weapon_scene = load(\"res://models/rifles/rifle.tscn\")
+	_load_weapon()
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_36qpv"]
+
+[sub_resource type="Gradient" id="Gradient_v3t3s"]
+offsets = PackedFloat32Array(0, 0.0296296, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.794399, 2.26215e-06, 0, 1, 0.2, 0.2, 0.2, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lqbfr"]
+gradient = SubResource("Gradient_v3t3s")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iarao"]
+shader = ExtResource("5_p7dgl")
+shader_parameter/EffectStrength = 0.0
+shader_parameter/TextureEffect = 0.8
+shader_parameter/Feather = 1.0
+shader_parameter/MinRadius = 0.815
+shader_parameter/MaxRadius = 0.0
+shader_parameter/PulseSpeed = 3.0
+shader_parameter/PulsePower = 0.2
+shader_parameter/TintGradient = SubResource("GradientTexture1D_lqbfr")
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+transform = Transform3D(0.08, 0, 0, 0, 0.08, 0, 0, 0, 0.08, 0, 0, 0)
+collision_layer = 2
+script = SubResource("GDScript_a4dbw")
+inventory_data = ExtResource("1_wjvgg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 4.40443, -0.0104652, -3.14922)
+visible = false
+mesh = ExtResource("2_g088a")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 4.40443, 4.83978, -3.14922)
+shape = SubResource("CapsuleShape3D_36qpv")
+
+[node name="head" type="Node3D" parent="."]
+transform = Transform3D(-0.2, 0, 1.74846e-08, 0, 0.2, 0, -1.74846e-08, 0, -0.2, 4.41085, 6.84159, -3.12066)
+
+[node name="Camera3D" type="Camera3D" parent="head"]
+transform = Transform3D(5, 0, -8.52651e-14, 0, 5, 0, 8.52651e-14, 0, 5, -1.49012e-08, -0.222197, -0.160035)
+
+[node name="InteractRay" type="RayCast3D" parent="head/Camera3D"]
+target_position = Vector3(0, 0, -0.5)
+collision_mask = 4
+
+[node name="WeaponPlaceholder" type="Node3D" parent="head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0985729, -0.132763, -1.49012e-08)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DamageOverlay" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_iarao")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.5
+offset_top = -2.5
+offset_right = 2.5
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.47451)

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemDataArmor" load_steps=3 format=3 uid="uid://duvg3jqg136kt"]
+
+[ext_resource type="Script" path="res://item/item_data_armor.gd" id="1_1ctou"]
+[ext_resource type="Texture2D" uid="uid://c57klapq4w4ki" path="res://item/tres/armorPolice.tres" id="2_bgqxo"]
+
+[resource]
+script = ExtResource("1_1ctou")
+defense = 5
+name = "armorPolice"
+description = "azeaeza"
+stackable = false
+texture = ExtResource("2_bgqxo")
+id = 200

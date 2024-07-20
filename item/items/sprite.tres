@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemDataConsumable" load_steps=3 format=3 uid="uid://cdv7twiibuuav"]
+
+[ext_resource type="Script" path="res://item/item_data_consumable.gd" id="1_1riqa"]
+[ext_resource type="Texture2D" uid="uid://bylem560168dk" path="res://item/tres/sprite.tres" id="2_q6tam"]
+
+[resource]
+script = ExtResource("1_1riqa")
+heal_value = 0
+feed = 0
+thirsty = 20
+name = "Sprite"
+description = "Un bon sprite bien frais."
+stackable = true
+texture = ExtResource("2_q6tam")
+id = 2

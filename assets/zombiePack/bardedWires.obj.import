@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dnwysoc5wopi0"
+path="res://.godot/imported/bardedWires.obj-41599bc038cbe6bf5168a484fce68597.mesh"
+
+[deps]
+
+files=["res://.godot/imported/bardedWires.obj-41599bc038cbe6bf5168a484fce68597.mesh"]
+
+source_file="res://assets/zombiePack/bardedWires.obj"
+dest_files=["res://.godot/imported/bardedWires.obj-41599bc038cbe6bf5168a484fce68597.mesh", "res://.godot/imported/bardedWires.obj-41599bc038cbe6bf5168a484fce68597.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://e4ulhtjbx4xh"]
+
+[ext_resource type="ArrayMesh" uid="uid://b1d2cvmff5bwk" path="res://assets/OBJ/Shop-4-GroundTile.obj" id="1_itu5l"]
+[ext_resource type="ArrayMesh" uid="uid://bp2lanernktq0" path="res://assets/OBJ/Shop-0-ShopBuilding_1.obj" id="2_2r2lx"]
+[ext_resource type="ArrayMesh" uid="uid://cujiiypukr0ej" path="res://assets/OBJ/concrete.obj" id="2_oicyo"]
+[ext_resource type="PackedScene" uid="uid://b441usy1mye16" path="res://assets/zombiePack/BarbedWires.fbx" id="3_1quf6"]
+[ext_resource type="PackedScene" uid="uid://dyt3smjgv54wp" path="res://assets/zombiePack/AmmoBox_5.fbx" id="4_qj6cm"]
+[ext_resource type="ArrayMesh" uid="uid://c5s0whc4utwrq" path="res://assets/OBJ/Shop-1-ShopBuilding_2.obj" id="6_6yneb"]
+[ext_resource type="ArrayMesh" uid="uid://c4sdwhbrrprko" path="res://assets/OBJ/Shop-3-Car.obj" id="7_ry243"]
+[ext_resource type="ArrayMesh" uid="uid://dqlkcbvbhn6nm" path="res://assets/OBJ/road_pieton.obj" id="8_8o5pw"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Ground" type="Node" parent="."]
+
+[node name="Shop-4-groundTile" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(-1.09278e-08, 0, 0.25, 0, 0.25, 0, -0.25, 0, -1.09278e-08, 3.11515, 0, -9.91983)
+mesh = ExtResource("1_itu5l")
+skeleton = NodePath("../..")
+
+[node name="Shop-4-groundTile2" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(-1.09278e-08, 0, -0.25, 0, 0.25, 0, 0.25, 0, -1.09278e-08, -3.28339, 0, -10.9384)
+mesh = ExtResource("1_itu5l")
+skeleton = NodePath("../..")
+
+[node name="Concrete" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(-1.09278e-08, 0, 0.25, 0, 0.25, 0, -0.25, 0, -1.09278e-08, 3.13, 0, -14.908)
+mesh = ExtResource("2_oicyo")
+skeleton = NodePath("../..")
+
+[node name="Buildings" type="Node" parent="."]
+
+[node name="Shop" type="MeshInstance3D" parent="Buildings"]
+transform = Transform3D(-1.09278e-08, 0, 0.25, 0, 0.25, 0, -0.25, 0, -1.09278e-08, 2.66317, 1, -10.207)
+mesh = ExtResource("2_2r2lx")
+skeleton = NodePath("../..")
+
+[node name="Props" type="Node" parent="."]
+
+[node name="box" parent="Props" instance=ExtResource("4_qj6cm")]
+transform = Transform3D(0.12519, 0, -0.484074, 0, 0.5, 0, 0.484074, 0, 0.12519, -0.85182, -0.000121653, -11.457)
+visible = false
+
+[node name="BaredWire" parent="Props" instance=ExtResource("3_1quf6")]
+transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, -0.725736, 0, -12.2721)
+
+[node name="BaredWire2" parent="Props" instance=ExtResource("3_1quf6")]
+transform = Transform3D(0.253769, 0, 0.430815, 0, 0.5, 0, -0.430815, 0, 0.253769, 0.656729, 0, -11.7061)
+
+[node name="Shop-1-shopBuilding2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.09278e-08, 0, -0.25, 0, 0.25, 0, 0.25, 0, -1.09278e-08, -2.29499, 1, -10.9952)
+mesh = ExtResource("6_6yneb")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15575, 0.978678, -9.05988)
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15575, 0.978678, -9.05988)
+
+[node name="Shop-3-car" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.205583, 0, -0.142252, 0, 0.25, 0, 0.142252, 0, 0.205583, 1.21974, 0.3, -12.0658)
+mesh = ExtResource("7_ry243")
+
+[node name="RoadPieton" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.09278e-08, 0, 0.25, 0, 0.25, 0, -0.25, 0, -1.09278e-08, 3.1, 0, -14.874)
+mesh = ExtResource("8_8o5pw")

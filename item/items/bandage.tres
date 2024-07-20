@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemDataConsumable" load_steps=4 format=3 uid="uid://yo5lp3720yxd"]
+
+[ext_resource type="Script" path="res://item/item_data_consumable.gd" id="1_4fs10"]
+[ext_resource type="Texture2D" uid="uid://cuu5j1n7dhnue" path="res://item/itemsTransparents.png" id="2_okk2t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3l4qu"]
+atlas = ExtResource("2_okk2t")
+region = Rect2(32, 0, 32, 32)
+
+[resource]
+script = ExtResource("1_4fs10")
+heal_value = 20
+name = "bandage"
+description = "salope vas"
+stackable = true
+texture = SubResource("AtlasTexture_3l4qu")
+id = 1

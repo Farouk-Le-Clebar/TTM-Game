@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvf3orwn3mx42"]
+
+[sub_resource type="GDScript" id="GDScript_rbyuu"]
+script/source = "extends Node
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	name = str(get_multiplayer_authority())
+
+
+@rpc(\"unreliable\")
+func remote_set_position(authority_position): pass
+
+@rpc(\"authority\", \"call_local\", \"reliable\", 1)
+func display_message(message): pass
+
+@rpc(\"any_peer\", \"call_local\", \"reliable\", 1)
+func clicked_by_pear(): pass
+"
+
+[node name="PlayerCharacter" type="Node"]
+script = SubResource("GDScript_rbyuu")

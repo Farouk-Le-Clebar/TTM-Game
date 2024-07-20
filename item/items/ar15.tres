@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemDataWeapon" load_steps=3 format=3 uid="uid://c4huijcs7dmu2"]
+
+[ext_resource type="Script" path="res://item/item_data_weapon.gd" id="1_i1ljk"]
+[ext_resource type="Texture2D" uid="uid://ccebbugqrulec" path="res://item/tres/ar15.tres" id="2_kik50"]
+
+[resource]
+script = ExtResource("1_i1ljk")
+attack = 20
+name = "ar15"
+description = "clik click pan pan pan"
+stackable = false
+texture = ExtResource("2_kik50")
+id = 100

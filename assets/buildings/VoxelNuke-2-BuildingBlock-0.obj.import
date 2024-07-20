@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bhcfq6133nci2"
+path="res://.godot/imported/VoxelNuke-2-BuildingBlock-0.obj-b1f44be60ab90e0d901ccc3bcf76cf40.mesh"
+
+[deps]
+
+files=["res://.godot/imported/VoxelNuke-2-BuildingBlock-0.obj-b1f44be60ab90e0d901ccc3bcf76cf40.mesh"]
+
+source_file="res://assets/buildings/VoxelNuke-2-BuildingBlock-0.obj"
+dest_files=["res://.godot/imported/VoxelNuke-2-BuildingBlock-0.obj-b1f44be60ab90e0d901ccc3bcf76cf40.mesh", "res://.godot/imported/VoxelNuke-2-BuildingBlock-0.obj-b1f44be60ab90e0d901ccc3bcf76cf40.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
