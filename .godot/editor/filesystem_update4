@@ -2,6 +2,7 @@ res://models/garage/garage.tscn
 res://player/test_inv.tres
 res://Scenes/Game/DamageOverlayShader.gdshader
 res://Scenes/Game/blurr.gdshader
+res://Scenes/Game/OtherCharacterBody3D.gd
 res://Scenes/mainMenu/menu.tscn
 res://Scenes/PlayerCharacter/player_character.tscn
 res://player/player.tscn
@@ -16,3 +17,4 @@ res://models/props/chest.tscn
 res://item/pickUp/pick_up.tscn
 res://Scenes/Game/Game.tscn
 res://models/rifles/rifle.tscn
+res://Scenes/Game/Game.gd

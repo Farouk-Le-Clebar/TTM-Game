@@ -124,6 +124,8 @@ func _create_other_player(uid: String, posX: float, posY: float, posZ: float, ro
 		print("$OtherPlayers node not found.")
 		return
 
+	otherPlayerInstance.scale = Vector3(0.35, 0.35, 0.35)
+
 	otherPlayersNode.add_child(otherPlayerInstance)
 	
 	# Obtenez le corps du joueur et définissez les propriétés
@@ -135,11 +137,18 @@ func _create_other_player(uid: String, posX: float, posY: float, posZ: float, ro
 	playerBody.uid = uid
 	playerBody.global_transform.origin = Vector3(posX, posY, posZ)
 	playerBody.global_transform.basis = Basis(Vector3(0, 1, 0), rotY)
+	
+	playerBody.scale = Vector3(0.35, 0.35, 0.35)
+	
+	playerBody.player_hit.connect(_on_player_hit)
 
 	# Ajouter à la liste des autres joueurs
-	otherPlayers[0] = otherPlayerInstance
+	otherPlayers[uid] = otherPlayerInstance
 	print("Other player created and added with UID: %s" % uid)
 
+func _on_player_hit(uid: String, damage: int):
+	var json_like_string = '{"CMD": "HIT", "uid": "%s", "damage": "%d"}' % [uid, damage]
+	WebSocket.send(json_like_string)
 
 func update_other_player_position(uid: String, posX: float, posY: float, posZ: float, rotY: float):
 	if otherPlayers.has(uid):
@@ -149,8 +158,8 @@ func update_other_player_position(uid: String, posX: float, posY: float, posZ: f
 		var transform = playerBody.global_transform
 		transform.basis = Basis(Vector3(0, 1, 0), rotY)
 		playerBody.global_transform = transform
-		# var animation_player = playerBody.get_node("AnimationPlayer")
-		# animation_player.play("Armature|Walk")
+		var animation_player = playerBody.get_node("AnimationPlayer")
+		animation_player.play("Armature|Walk")
 	else:
 		print("Player with UID", uid, "not found.")
 

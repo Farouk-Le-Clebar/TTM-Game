@@ -1,11 +1,11 @@
 extends CharacterBody3D
 
 var uid : String = ""
-@onready var websocket = $"../WebSocketClient"
-# @onready var animation = $AnimationPlayer
+@onready var animation = $AnimationPlayer
+signal player_hit(uid: String, damage: int)  # Déclare le signal
+
 func _ready():
 	pass
 
 func hit(damage):
-	var json_like_string = '{"CMD": "HIT", "uid": "%s", "damage": %d}' % [uid, damage]
-	websocket.send(json_like_string)
+	emit_signal("player_hit", uid, damage)
