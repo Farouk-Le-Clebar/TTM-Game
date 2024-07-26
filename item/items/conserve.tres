@@ -8,7 +8,7 @@ script = ExtResource("1_25ywv")
 heal_value = 0
 feed = 20
 thirsty = 0
-name = "Conserve"
+name = "conserve"
 description = "Le fameux rougail saucisses de louis.
 "
 stackable = true

@@ -35,7 +35,7 @@ const JUMP_VELOCITY = 2.5
 const CROUCH_Y_OFFSET = -0.2
 var isCrouch = false
 const SENSITIVITY = 0.003
-var bullet = load(\"res://models/rifles/bullet.tscn\")
+var bullet = load(\"res://models/weapons/AR15-Bullets.tscn\")
 var instanceBullet
 var gravity = ProjectSettings.get_setting(\"physics/3d/default_gravity\")
 var last_position = Vector3()
@@ -43,7 +43,6 @@ var last_position = Vector3()
 var weapon_instance : Node = null
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	PlayerMager.player = self
 	var json_like_string = '{\"CMD\": \"GP\", \"uid\": \"%s\"}' % [Global.uid]
 	MainPlayer.send(json_like_string)
@@ -76,6 +75,8 @@ func _unload_weapon():
 		shootAnim = null
 
 func _input(event):
+	if Global.isDead == true:
+		return
 	if event is InputEventMouseMotion and !inventory.visible:
 		head.rotate_y(-event.relative.x * SENSITIVITY)
 		camera.rotate_x(-event.relative.y * SENSITIVITY)
@@ -105,6 +106,8 @@ func set_position_player(posX: float, posY: float, posZ: float) -> void:
 func _physics_process(delta):
 	# Add the gravity.
 	if inventory.visible:
+		return
+	if Global.isDead == true:
 		return
 
 	if not is_on_floor():
@@ -166,7 +169,7 @@ func _on_primary_weapon_inventory_updated(weapon_name):
 		print(\"update rien\")
 		return
 	if weapon_name == \"ar15\":
-		weapon_scene = load(\"res://models/rifles/rifle.tscn\")
+		weapon_scene = load(\"res://models/weapons/AR15.tscn\")
 	_load_weapon()
 "
 
@@ -213,6 +216,7 @@ transform = Transform3D(-0.2, 0, 1.74846e-08, 0, 0.2, 0, -1.74846e-08, 0, -0.2, 
 transform = Transform3D(5, 0, -8.52651e-14, 0, 5, 0, 8.52651e-14, 0, 5, -1.49012e-08, -0.222197, -0.160035)
 
 [node name="InteractRay" type="RayCast3D" parent="head/Camera3D"]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
 target_position = Vector3(0, 0, -0.5)
 collision_mask = 4
 

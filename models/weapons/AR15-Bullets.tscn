@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://cj4d4nvprnlj1"]
 
-[ext_resource type="Script" path="res://Bullet.gd" id="1_dyby5"]
+[ext_resource type="Script" path="res://Bullet.gd" id="1_c52yp"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_kg56h"]
-size = Vector3(0.05, 0.05, 1)
+size = Vector3(0.05, 0.05, 0.25)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mws80"]
 albedo_color = Color(0.978944, 1, 0.39565, 1)
@@ -20,7 +20,7 @@ initial_velocity_max = 5.0
 size = Vector3(0.04, 0.04, 0.04)
 
 [node name="Bullet" type="Node3D"]
-script = ExtResource("1_dyby5")
+script = ExtResource("1_c52yp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_kg56h")

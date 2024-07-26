@@ -7,3 +7,4 @@ var socketCLT : WebSocketPeer = WebSocketPeer.new()
 var email : String = ""
 var password : String = ""
 var life = 100
+var isDead : bool = false

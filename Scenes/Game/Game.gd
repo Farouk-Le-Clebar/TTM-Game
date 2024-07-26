@@ -4,6 +4,7 @@ extends Node3D
 @onready var MainPlayer = $CharacterBody3D
 @onready var inventory_interface = $UI/InventoryInterface
 @onready var DamageOverlay = $CharacterBody3D/CanvasLayer/DamageOverlay
+@onready var DeadInterface = $UI/DeadInterface
 
 const PickUp = preload("res://item/pickUp/pick_up.tscn")
 var otherPlayers = {}
@@ -21,6 +22,7 @@ func _ready():
 	WebSocket.send(json_like_string)
 	for node in get_tree().get_nodes_in_group("external_inventory"):
 		node.toggle_inventory.connect(toggle_inventory_interface)
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func toggle_inventory_interface(external_inventory_owner = null) -> void:
 	inventory_interface.visible = not inventory_interface.visible
@@ -36,17 +38,12 @@ func toggle_inventory_interface(external_inventory_owner = null) -> void:
 		inventory_interface.clear_external_inventory()
 
 func _on_web_socket_client_message_received(message):
-	print("----")
-	print(Global.uid)
-	print(message)
-	print("----")
 	var json_obj = JSON.parse_string(message)
 	if json_obj.has("state"):
 		return
 	var cmd = json_obj["CMD"]
 
 	if cmd == "GP":
-		print("test")
 		var posX = str(json_obj["posX"]).to_float()
 		var posY = str(json_obj["posY"]).to_float()
 		var posZ = str(json_obj["posZ"]).to_float()
@@ -88,7 +85,13 @@ func _on_web_socket_client_message_received(message):
 		var ears = json_obj["ears"]
 		_load_inventory(pocket, weapon, helmet, armor, eyes, ears)
 
-	print("commande traité")
+	if cmd == "RESPAWN":
+		print("respawn")
+		var life = str(json_obj["life"]).to_int()
+		var posX = str(json_obj["posX"]).to_float()
+		var posY = str(json_obj["posY"]).to_float()
+		var posZ = str(json_obj["posZ"]).to_float()
+		_respawn_player(life, posX, posY, posZ)
 
 func _on_web_socket_client_connected_to_server():
 		var json_like_string = '{"CMD": "DP", "uid": "%s"}' % [Global.uid]
@@ -138,8 +141,6 @@ func _create_other_player(uid: String, posX: float, posY: float, posZ: float, ro
 	playerBody.global_transform.origin = Vector3(posX, posY, posZ)
 	playerBody.global_transform.basis = Basis(Vector3(0, 1, 0), rotY)
 	
-	playerBody.scale = Vector3(0.35, 0.35, 0.35)
-	
 	playerBody.player_hit.connect(_on_player_hit)
 
 	# Ajouter à la liste des autres joueurs
@@ -174,9 +175,11 @@ func _rotate_other_player(uid: String, rotY: float):
 		print("Player with UID", uid, "not found.")
 
 func _hit_player(life : int):
-	print("life : %d" % life)
-	if life ==  0:
+	if life == 0:
 		DamageOverlay.material.set_shader_parameter("EffectStrength", 0);
+		Global.isDead = true
+		DeadInterface.show()
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif life <= 25:
 		DamageOverlay.material.set_shader_parameter("EffectStrength", 1);
 	elif life <= 50:
@@ -198,40 +201,50 @@ func _load_inventory(pocket, weapon, helmet, armor, eyes, ears):
 	
 	for item in pocket:
 		if item[0] != "":
-			print(item)
-			print(item[0])
 			item_data = loadItem(item[0], item[2], item[1])
 			MainPlayer.inventory_data.add_item_to_inventory(item_data, index)
+		else:
+			MainPlayer.inventory_data.remove_item_to_inventory(index)
 		index += 1
 	index = 0
 	for item in weapon:
 		if item[0] != "":
 			item_data = loadItem(item[0], item[2], item[1])
 			MainPlayer.primary_weapon_inventory_data.add_item_to_inventory(item_data, index)
+		else:
+			MainPlayer.inventory_data.remove_item_to_inventory(index)
 		index += 1
 	index = 0
 	for item in helmet:
 		if item[0] != "":
 			item_data = loadItem(item[0], item[2], item[1])
 			MainPlayer.helmet_inventory_data.add_item_to_inventory(item_data, index)
+		else:
+			MainPlayer.inventory_data.remove_item_to_inventory(index)
 		index += 1
 	index = 0
 	for item in armor:
 		if item[0] != "":
 			item_data = loadItem(item[0], item[2], item[1])
 			MainPlayer.armor_inventory_data.add_item_to_inventory(item_data, index)
+		else:
+			MainPlayer.inventory_data.remove_item_to_inventory(index)
 		index += 1
 	index = 0
 	for item in eyes:
 		if item[0] != "":
 			item_data = loadItem(item[0], item[2], item[1])
 			MainPlayer.eyes_inventory_data.add_item_to_inventory(item_data, index)
+		else:
+			MainPlayer.inventory_data.remove_item_to_inventory(index)
 		index += 1
 	index = 0
 	for item in ears:
 		if item[0] != "":
 			item_data = loadItem(item[0], item[2], item[1])
 			MainPlayer.ears_inventory_data.add_item_to_inventory(item_data, index)
+		else:
+			MainPlayer.inventory_data.remove_item_to_inventory(index)
 		index += 1
 	index = 0
 
@@ -244,6 +257,8 @@ func _load_inventory(pocket, weapon, helmet, armor, eyes, ears):
 
 func loadItem(itemName : String, itemType : String, quantity : int):
 	var item_path = "res://item/items/" + itemName + ".tres"
+	print("itemPath")
+	print(item_path)
 	var slot_data = SlotData.new()
 	if itemType == "data":
 		slot_data.item_data = load(item_path) as ItemData
@@ -262,5 +277,12 @@ func loadItem(itemName : String, itemType : String, quantity : int):
 		
 	return slot_data
 		
-		
+func _respawn_player(life, posX, posY, posZ):
+	MainPlayer.set_position_player(posX, posY, posZ)
+	Global.life = 100
+	Global.isDead = false
+	DeadInterface.hide()
+	print(posX)
+	print(posY)
+	print(posZ)
 	

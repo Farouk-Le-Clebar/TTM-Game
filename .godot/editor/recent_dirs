@@ -1,3 +1,4 @@
+res://assets/font
 res://assets/characters
 res://item/items/
 res://item/tres/
@@ -16,7 +17,6 @@ res://assets/biome
 res://assets/music
 res://assets/animations
 res://assets/guns
-res://assets/font
 res://assets/loginMenu
 res://Scenes/Game
 /home/felix/Documents/Jeux/TTM/FBX2glTF-linux-x86_64

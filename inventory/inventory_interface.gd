@@ -87,7 +87,10 @@ func on_inventory_interact(inventory_data : InventoryData, index : int, button: 
 		[_, MOUSE_BUTTON_LEFT]:
 			var type = ""
 			type = findType()
-			json_like_string = '{"CMD": "DROPITEM", "uid": "%s", "index": "%d", "id": "%s", "quantity": "%d", "type": "%s"}' % [Global.uid, index, grabbed_slot_data.item_data.name, grabbed_slot_data.quantity, type]
+			if grabbed_slot_data.item_data is ItemDataArmor or grabbed_slot_data.item_data is ItemDataHelmet:
+				json_like_string = '{"CMD": "DROPITEM", "uid": "%s", "index": "%d", "id": "%s", "quantity": "%d", "type": "%s", "resistance": "%d"}' % [Global.uid, index, grabbed_slot_data.item_data.name, grabbed_slot_data.quantity, type, grabbed_slot_data.item_data.defense]
+			else:
+				json_like_string = '{"CMD": "DROPITEM", "uid": "%s", "index": "%d", "id": "%s", "quantity": "%d", "type": "%s"}' % [Global.uid, index, grabbed_slot_data.item_data.name, grabbed_slot_data.quantity, type]
 			grabbed_slot_data = inventory_data.drop_slot_data(grabbed_slot_data, index)
 		[null, MOUSE_BUTTON_RIGHT]:
 			inventory_data.use_slot_data(index)
@@ -95,7 +98,10 @@ func on_inventory_interact(inventory_data : InventoryData, index : int, button: 
 		[_, MOUSE_BUTTON_RIGHT]:
 			var type = ""
 			type = findType()
-			json_like_string = '{"CMD": "DROPITEM", "uid": "%s", "index": "%d", "id": "%s", "quantity": "1", "type": "%s"}' % [Global.uid, index, grabbed_slot_data.item_data.name, type]
+			if grabbed_slot_data.item_data is ItemDataArmor or grabbed_slot_data.item_data is ItemDataHelmet:
+				json_like_string = '{"CMD": "DROPITEM", "uid": "%s", "index": "%d", "id": "%s", "quantity": "1", "type": "%s", "resistance": "%d"}' % [Global.uid, index, grabbed_slot_data.item_data.name, type, grabbed_slot_data.item_data.defense]
+			else:
+				json_like_string = '{"CMD": "DROPITEM", "uid": "%s", "index": "%d", "id": "%s", "quantity": "1", "type": "%s"}' % [Global.uid, index, grabbed_slot_data.item_data.name, type]
 			grabbed_slot_data = inventory_data.drop_single_slot_data(grabbed_slot_data, index)
 
 	json_like_string = json_like_string.rstrip('}')

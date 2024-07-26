@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://3nlox2umowd0"]
+[gd_scene load_steps=34 format=3 uid="uid://3nlox2umowd0"]
 
 [ext_resource type="Script" path="res://Scenes/Game/Game.gd" id="1_8hbws"]
 [ext_resource type="Script" path="res://inventory/inventory_data_eyes.gd" id="4_g0tm6"]
@@ -11,15 +11,17 @@
 [ext_resource type="PackedScene" uid="uid://5fwpjm2n8bwg" path="res://inventory/inventory.tscn" id="9_144hn"]
 [ext_resource type="Texture2D" uid="uid://ct4uapneteuuj" path="res://assets/inventory/player.png" id="10_24vmx"]
 [ext_resource type="Script" path="res://inventory/inventory_interface.gd" id="10_rwjtn"]
-[ext_resource type="Texture2D" uid="uid://ki1bhsxpl4wi" path="res://assets/inventory/background.png" id="11_lu6ho"]
 [ext_resource type="PackedScene" uid="uid://b4v6pce5o6lf0" path="res://inventory/slot.tscn" id="12_dm5w1"]
 [ext_resource type="PackedScene" uid="uid://bwu60oi0ql31d" path="res://models/props/chest.tscn" id="13_l1ojs"]
 [ext_resource type="PackedScene" uid="uid://w16pbbuswfb2" path="res://player/player.tscn" id="13_l4nfd"]
 [ext_resource type="Script" path="res://inventory/inventory_data.gd" id="14_47qns"]
+[ext_resource type="FontFile" uid="uid://b4kipanibdijo" path="res://assets/font/ROUND8-FOUR.otf" id="14_l4pix"]
+[ext_resource type="Script" path="res://Scenes/Game/Button.gd" id="15_d204c"]
 [ext_resource type="Script" path="res://inventory/slot_data.gd" id="16_ur5sf"]
 [ext_resource type="Resource" uid="uid://c4huijcs7dmu2" path="res://item/items/ar15.tres" id="19_obgsc"]
 [ext_resource type="Resource" uid="uid://4sg6sgx7t1x0" path="res://item/items/conserve.tres" id="20_6wg4j"]
 [ext_resource type="Resource" uid="uid://cdv7twiibuuav" path="res://item/items/sprite.tres" id="21_gis6k"]
+[ext_resource type="Resource" uid="uid://duvg3jqg136kt" path="res://item/items/armorPolice.tres" id="22_xx82v"]
 
 [sub_resource type="Resource" id="Resource_xejue"]
 script = ExtResource("4_ncnn5")
@@ -60,9 +62,14 @@ script = ExtResource("16_ur5sf")
 item_data = ExtResource("20_6wg4j")
 quantity = 1
 
+[sub_resource type="Resource" id="Resource_wa7pl"]
+script = ExtResource("16_ur5sf")
+item_data = ExtResource("22_xx82v")
+quantity = 1
+
 [sub_resource type="Resource" id="Resource_sdst2"]
 script = ExtResource("14_47qns")
-slot_datas = Array[ExtResource("16_ur5sf")]([SubResource("Resource_ihkd8"), SubResource("Resource_ggx7q"), SubResource("Resource_qwp2k"), null, null])
+slot_datas = Array[ExtResource("16_ur5sf")]([SubResource("Resource_ihkd8"), SubResource("Resource_ggx7q"), SubResource("Resource_qwp2k"), SubResource("Resource_wa7pl"), null])
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_8hbws")
@@ -93,10 +100,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("10_rwjtn")
-
-[node name="background" type="Sprite2D" parent="UI/InventoryInterface"]
-position = Vector2(960, 540)
-texture = ExtResource("11_lu6ho")
 
 [node name="Sprite2D" type="Sprite2D" parent="UI/InventoryInterface"]
 position = Vector2(355, 428)
@@ -176,6 +179,50 @@ layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 
+[node name="DeadInterface" type="Control" parent="UI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="UI/DeadInterface"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -195.0
+offset_top = 70.5
+offset_right = 195.0
+offset_bottom = 129.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_l4pix")
+theme_override_font_sizes/font_size = 50
+text = "RESPAWN"
+script = ExtResource("15_d204c")
+
+[node name="DeathMessage" type="Label" parent="UI/DeadInterface"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -97.5
+offset_top = -140.0
+offset_right = 97.5
+offset_bottom = -69.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_l4pix")
+theme_override_font_sizes/font_size = 70
+text = "T DEAD FILS !"
+
 [node name="Chest" parent="." instance=ExtResource("13_l1ojs")]
 transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 4.25667, 0.0499998, -1.25364)
 inventory_data = SubResource("Resource_sdst2")
@@ -186,3 +233,4 @@ inventory_data = SubResource("Resource_sdst2")
 [connection signal="drop_slot_data" from="UI/InventoryInterface" to="." method="_on_inventory_interface_drop_slot_data"]
 [connection signal="gui_input" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_visibility_changed"]
+[connection signal="pressed" from="UI/DeadInterface/Button" to="UI/DeadInterface/Button" method="_on_pressed"]

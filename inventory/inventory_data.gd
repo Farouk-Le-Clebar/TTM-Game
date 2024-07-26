@@ -91,7 +91,6 @@ func on_slot_clicked(index : int, button: int) -> void:
 
 func add_item_to_inventory(slot_data: SlotData, index: int) -> bool:
 	if index < 0 or index >= slot_datas.size():
-		print("1")
 		return false  # Index en dehors de la plage valide
 	
 	if not slot_datas[index]:
@@ -99,8 +98,15 @@ func add_item_to_inventory(slot_data: SlotData, index: int) -> bool:
 	elif slot_datas[index].can_fully_merge_with(slot_data):
 		slot_datas[index].fully_merge_with(slot_data)
 	else:
-		print("2")
 		return false  # Emplacement déjà occupé et ne peut pas fusionner
 	
 	inventory_updated.emit(self)
 	return true
+
+func remove_item_to_inventory(index: int) -> bool:
+	if index < 0 or index >= slot_datas.size():
+		return false 
+	if slot_datas[index] != null:
+		slot_datas[index] = null
+		return true
+	return false

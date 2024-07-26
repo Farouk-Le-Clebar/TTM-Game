@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_1ctou")
-defense = 5
+defense = 15
 name = "armorPolice"
 description = "azeaeza"
 stackable = false

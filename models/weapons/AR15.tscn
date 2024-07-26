@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ceq7rrae83bvv"]
 
-[ext_resource type="ArrayMesh" uid="uid://g67ab01tfpgq" path="res://assets/guns/assautRifle.obj" id="1_fvay6"]
+[ext_resource type="ArrayMesh" uid="uid://g67ab01tfpgq" path="res://assets/guns/assautRifle.obj" id="1_q0wke"]
 
 [sub_resource type="Animation" id="Animation_jub3k"]
 resource_name = "Shoot"
@@ -28,7 +28,7 @@ _data = {
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-mesh = ExtResource("1_fvay6")
+mesh = ExtResource("1_q0wke")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -36,5 +36,5 @@ libraries = {
 }
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0241331, -0.553709)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00496377, 0.0406034, -0.515242)
 target_position = Vector3(0, 0, -1)

@@ -10,6 +10,8 @@ region = Rect2(32, 0, 32, 32)
 [resource]
 script = ExtResource("1_4fs10")
 heal_value = 20
+feed = 0
+thirsty = 0
 name = "bandage"
 description = "salope vas"
 stackable = true

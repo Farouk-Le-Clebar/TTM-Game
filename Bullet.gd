@@ -18,7 +18,7 @@ func _process(delta):
 		particles.emitting = true
 		raycast.enabled
 		if raycast.get_collider().is_in_group("enemy"):
-			raycast.get_collider().hit(10)
+			raycast.get_collider().hit(25)
 		await get_tree().create_timer(1.0).timeout
 		queue_free()
 
