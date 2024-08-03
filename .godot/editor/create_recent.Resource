@@ -1,6 +1,7 @@
-ItemDataConsumable
+ItemDataScope
 AtlasTexture
 ItemDataWeapon
+ItemDataConsumable
 ItemDataArmor
 ItemData
 InventoryData

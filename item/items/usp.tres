@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemDataWeapon" load_steps=3 format=3 uid="uid://bjtbc38ncjm8i"]
+
+[ext_resource type="Script" path="res://item/item_data_weapon.gd" id="1_71xiv"]
+[ext_resource type="Texture2D" uid="uid://dbm2tsu8mddkk" path="res://item/tres/usp.tres" id="2_aoywt"]
+
+[resource]
+script = ExtResource("1_71xiv")
+attack = 10
+isSelected = false
+scope = ""
+attachement = ""
+cannon = ""
+name = "usp"
+description = "pshhhhhhhhhhhhhhhh"
+rarity = "[commun]"
+stackable = false
+texture = ExtResource("2_aoywt")
+id = 101

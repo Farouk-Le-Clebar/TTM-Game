@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemDataWeapon" load_steps=3 format=3 uid="uid://df72xm8muqcrk"]
+
+[ext_resource type="Script" path="res://item/item_data_weapon.gd" id="1_gvs5e"]
+[ext_resource type="Texture2D" uid="uid://d18gdfd75qpuu" path="res://item/tres/snipe.tres" id="2_kslyy"]
+
+[resource]
+script = ExtResource("1_gvs5e")
+attack = 50
+isSelected = false
+scope = ""
+attachement = ""
+cannon = ""
+name = "snipe"
+description = "wartek
+"
+rarity = "[epic]"
+stackable = false
+texture = ExtResource("2_kslyy")
+id = 102

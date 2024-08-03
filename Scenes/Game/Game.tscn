@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://3nlox2umowd0"]
+[gd_scene load_steps=42 format=3 uid="uid://3nlox2umowd0"]
 
 [ext_resource type="Script" path="res://Scenes/Game/Game.gd" id="1_8hbws"]
 [ext_resource type="Script" path="res://inventory/inventory_data_eyes.gd" id="4_g0tm6"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://inventory/inventory_data_ears.gd" id="7_lh208"]
 [ext_resource type="PackedScene" uid="uid://dffx4bbkrgscf" path="res://Scenes/world/world.tscn" id="8_3en2k"]
 [ext_resource type="Script" path="res://inventory/inventory_data_weapon.gd" id="8_dxd0b"]
+[ext_resource type="Script" path="res://inventory/inventory_data_scope.gd" id="8_pm6v1"]
 [ext_resource type="PackedScene" uid="uid://5fwpjm2n8bwg" path="res://inventory/inventory.tscn" id="9_144hn"]
 [ext_resource type="Texture2D" uid="uid://ct4uapneteuuj" path="res://assets/inventory/player.png" id="10_24vmx"]
 [ext_resource type="Script" path="res://inventory/inventory_interface.gd" id="10_rwjtn"]
@@ -22,6 +23,9 @@
 [ext_resource type="Resource" uid="uid://4sg6sgx7t1x0" path="res://item/items/conserve.tres" id="20_6wg4j"]
 [ext_resource type="Resource" uid="uid://cdv7twiibuuav" path="res://item/items/sprite.tres" id="21_gis6k"]
 [ext_resource type="Resource" uid="uid://duvg3jqg136kt" path="res://item/items/armorPolice.tres" id="22_xx82v"]
+[ext_resource type="Resource" uid="uid://df72xm8muqcrk" path="res://item/items/snipe.tres" id="23_cs433"]
+[ext_resource type="Resource" uid="uid://bjtbc38ncjm8i" path="res://item/items/usp.tres" id="24_62iex"]
+[ext_resource type="Resource" uid="uid://didguoslqjeod" path="res://item/items/redDot.tres" id="25_leen6"]
 
 [sub_resource type="Resource" id="Resource_xejue"]
 script = ExtResource("4_ncnn5")
@@ -47,6 +51,10 @@ slot_datas = Array[ExtResource("16_ur5sf")]([null])
 script = ExtResource("8_dxd0b")
 slot_datas = Array[ExtResource("16_ur5sf")]([null])
 
+[sub_resource type="Resource" id="Resource_joya8"]
+script = ExtResource("8_pm6v1")
+slot_datas = Array[ExtResource("16_ur5sf")]([null])
+
 [sub_resource type="Resource" id="Resource_ihkd8"]
 script = ExtResource("16_ur5sf")
 item_data = ExtResource("19_obgsc")
@@ -67,9 +75,24 @@ script = ExtResource("16_ur5sf")
 item_data = ExtResource("22_xx82v")
 quantity = 1
 
+[sub_resource type="Resource" id="Resource_x5bmm"]
+script = ExtResource("16_ur5sf")
+item_data = ExtResource("23_cs433")
+quantity = 1
+
+[sub_resource type="Resource" id="Resource_i0vgu"]
+script = ExtResource("16_ur5sf")
+item_data = ExtResource("24_62iex")
+quantity = 1
+
+[sub_resource type="Resource" id="Resource_4jkag"]
+script = ExtResource("16_ur5sf")
+item_data = ExtResource("25_leen6")
+quantity = 1
+
 [sub_resource type="Resource" id="Resource_sdst2"]
 script = ExtResource("14_47qns")
-slot_datas = Array[ExtResource("16_ur5sf")]([SubResource("Resource_ihkd8"), SubResource("Resource_ggx7q"), SubResource("Resource_qwp2k"), SubResource("Resource_wa7pl"), null])
+slot_datas = Array[ExtResource("16_ur5sf")]([SubResource("Resource_ihkd8"), SubResource("Resource_ggx7q"), SubResource("Resource_qwp2k"), SubResource("Resource_wa7pl"), SubResource("Resource_x5bmm"), SubResource("Resource_i0vgu"), SubResource("Resource_4jkag")])
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_8hbws")
@@ -82,6 +105,7 @@ eyes_inventory_data = SubResource("Resource_8fhrh")
 ears_inventory_data = SubResource("Resource_y3piq")
 primary_weapon_inventory_data = SubResource("Resource_t4ois")
 secondary_weapon_inventory_data = SubResource("Resource_x5kiq")
+scope_inventory_data = SubResource("Resource_joya8")
 
 [node name="world" parent="." instance=ExtResource("8_3en2k")]
 
@@ -144,6 +168,30 @@ offset_left = 138.0
 offset_top = 167.0
 offset_right = 178.0
 offset_bottom = 207.0
+
+[node name="ScopeInventory" parent="UI/InventoryInterface" instance=ExtResource("9_144hn")]
+visible = false
+layout_mode = 1
+offset_left = 123.0
+offset_top = 18.0
+offset_right = 163.0
+offset_bottom = 58.0
+
+[node name="AttachementInventory" parent="UI/InventoryInterface" instance=ExtResource("9_144hn")]
+visible = false
+layout_mode = 1
+offset_left = 64.0
+offset_top = 17.0
+offset_right = 104.0
+offset_bottom = 57.0
+
+[node name="CannonInventory" parent="UI/InventoryInterface" instance=ExtResource("9_144hn")]
+visible = false
+layout_mode = 1
+offset_left = 17.0
+offset_top = 15.0
+offset_right = 57.0
+offset_bottom = 55.0
 
 [node name="PrimaryWeaponInventory" parent="UI/InventoryInterface" instance=ExtResource("9_144hn")]
 layout_mode = 1
@@ -230,7 +278,6 @@ inventory_data = SubResource("Resource_sdst2")
 [connection signal="connected_to_server" from="WebSocketClient" to="." method="_on_web_socket_client_connected_to_server"]
 [connection signal="connection_closed" from="WebSocketClient" to="." method="_on_web_socket_client_connection_closed"]
 [connection signal="message_received" from="WebSocketClient" to="." method="_on_web_socket_client_message_received"]
-[connection signal="drop_slot_data" from="UI/InventoryInterface" to="." method="_on_inventory_interface_drop_slot_data"]
 [connection signal="gui_input" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="UI/InventoryInterface" to="UI/InventoryInterface" method="_on_visibility_changed"]
 [connection signal="pressed" from="UI/DeadInterface/Button" to="UI/DeadInterface/Button" method="_on_pressed"]

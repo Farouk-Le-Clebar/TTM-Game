@@ -17,8 +17,14 @@ signal toggle_inventory()
 
 @export var primary_weapon_inventory_data : InventoryDataWeapon
 @export var secondary_weapon_inventory_data : InventoryDataWeapon
+@export var scope_inventory_data : InventoryDataScope
+@export var cannon_inventory_data : InventoryDataScope
+@export var attachement_inventory_data : InventoryDataScope
 
 @export var weapon_scene : PackedScene
+@export var scope_scene : PackedScene
+@onready var scope_camera = null
+@onready var scope_mesh = null 
 
 @onready var head = $head
 @onready var camera = $head/Camera3D
@@ -35,11 +41,12 @@ const JUMP_VELOCITY = 2.5
 const CROUCH_Y_OFFSET = -0.2
 var isCrouch = false
 const SENSITIVITY = 0.003
-var bullet = load(\"res://models/weapons/AR15-Bullets.tscn\")
+var bullet = null
 var instanceBullet
 var gravity = ProjectSettings.get_setting(\"physics/3d/default_gravity\")
 var last_position = Vector3()
-
+var original_camera_transform: Transform3D
+var is_zoomed: bool = false
 var weapon_instance : Node = null
 
 func _ready():
@@ -66,6 +73,24 @@ func _load_weapon():
 		weapon_instance.global_transform = WeaponPlaceholder.global_transform
 		gun_barrel = weapon_instance.get_node(\"RayCast3D\")
 		shootAnim = weapon_instance.get_node(\"AnimationPlayer\")
+		_load_scope()
+
+func loadAttachement(attachement1, attachement2, attachement3):
+	if attachement1 != \"\":
+		scope_scene = load(\"res://models/weapons/attachements/redHot/red_hot.tscn\")		
+		_load_scope()
+	
+func _load_scope():
+	if scope_scene and weapon_instance:
+		var scope_instance = scope_scene.instantiate()
+		var scope_placeholder = weapon_instance.get_node(\"ScopePlaceholder\")
+		
+		if scope_placeholder:
+			scope_placeholder.add_child(scope_instance)
+			scope_instance.global_transform = scope_placeholder.global_transform
+			
+			scope_camera = scope_instance.get_node(\"CameraPlaceholder\")  # Assurez-vous que le nœud de la caméra s'appelle \"Camera\"
+			scope_mesh = scope_instance.get_node(\"MeshInstance3D\")  # Assurez-vous que le nœud du maillage s'appelle \"MeshInstance3D\"
 	
 func _unload_weapon():
 	if weapon_instance:
@@ -73,11 +98,21 @@ func _unload_weapon():
 		weapon_instance = null
 		gun_barrel = null 
 		shootAnim = null
+	if scope_camera:
+		scope_camera.queue_free()
+		scope_camera = null
+	if scope_mesh:
+		scope_mesh.queue_free()
+		scope_mesh = null
+
 
 func _input(event):
-	if Global.isDead == true:
+	if Input.is_action_just_pressed(\"inventory\"):
+		toggle_inventory.emit()
+		
+	if Global.isDead == true or inventory.visible:
 		return
-	if event is InputEventMouseMotion and !inventory.visible:
+	if event is InputEventMouseMotion:
 		head.rotate_y(-event.relative.x * SENSITIVITY)
 		camera.rotate_x(-event.relative.y * SENSITIVITY)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-40), deg_to_rad(60))
@@ -85,11 +120,20 @@ func _input(event):
 		var json_like_string = '{\"CMD\": \"ROT\", \"uid\": \"%s\", \"rotY\": %f}' % [Global.uid, mesh.rotation.y]
 		MainPlayer.send(json_like_string)
 	
-	if Input.is_action_just_pressed(\"inventory\"):
-		toggle_inventory.emit()
 
 	if Input.is_action_just_pressed(\"interact\"):
 		interact()
+
+	if Input.is_action_just_pressed(\"scope_zoom\") and weapon_instance:
+		toggle_zoom()
+
+func toggle_zoom():
+	if not is_zoomed:
+		camera.fov = 35
+		is_zoomed = true
+	else:
+		camera.fov = 70  # Or whatever the original FOV was
+		is_zoomed = false
 
 func interact() -> void:
 	if interact_ray.is_colliding():
@@ -161,7 +205,7 @@ func heal(heal_value : int) -> void:
 	Global.life += heal_value
 	if Global.life > 100:
 		Global.life = 100
-	
+
 func _on_primary_weapon_inventory_updated(weapon_name):
 	print(weapon_name)
 	_unload_weapon()
@@ -169,7 +213,14 @@ func _on_primary_weapon_inventory_updated(weapon_name):
 		print(\"update rien\")
 		return
 	if weapon_name == \"ar15\":
-		weapon_scene = load(\"res://models/weapons/AR15.tscn\")
+		bullet = load(\"res://models/weapons/ar15/AR15-Bullets.tscn\")
+		weapon_scene = load(\"res://models/weapons/ar15/AR15.tscn\")
+	if weapon_name == \"usp\":
+		bullet = load(\"res://models/weapons/usp/usp-Bullets.tscn\")
+		weapon_scene = load(\"res://models/weapons/usp/usp.tscn\")
+	if weapon_name == \"snipe\":
+		bullet = load(\"res://models/weapons/snipe/snipe-Bullets.tscn\")
+		weapon_scene = load(\"res://models/weapons/snipe/snipe.tscn\")
 	_load_weapon()
 "
 
@@ -213,7 +264,7 @@ shape = SubResource("CapsuleShape3D_36qpv")
 transform = Transform3D(-0.2, 0, 1.74846e-08, 0, 0.2, 0, -1.74846e-08, 0, -0.2, 4.41085, 6.84159, -3.12066)
 
 [node name="Camera3D" type="Camera3D" parent="head"]
-transform = Transform3D(5, 0, -8.52651e-14, 0, 5, 0, 8.52651e-14, 0, 5, -1.49012e-08, -0.222197, -0.160035)
+transform = Transform3D(62.5, 0, -9.09495e-13, 0, 62.5, 0, 9.09495e-13, 0, 62.5, 0, -0.222198, -0.160034)
 
 [node name="InteractRay" type="RayCast3D" parent="head/Camera3D"]
 transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
@@ -221,7 +272,7 @@ target_position = Vector3(0, 0, -0.5)
 collision_mask = 4
 
 [node name="WeaponPlaceholder" type="Node3D" parent="head/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0985729, -0.132763, -1.49012e-08)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.144784, -0.132763, -0.431949)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

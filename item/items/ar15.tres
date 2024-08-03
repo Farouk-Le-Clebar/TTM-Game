@@ -8,6 +8,7 @@ script = ExtResource("1_i1ljk")
 attack = 20
 name = "ar15"
 description = "clik click pan pan pan"
+rarity = "[rare]"
 stackable = false
 texture = ExtResource("2_kik50")
 id = 100

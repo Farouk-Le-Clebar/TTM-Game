@@ -9,8 +9,8 @@ heal_value = 0
 feed = 20
 thirsty = 0
 name = "conserve"
-description = "Le fameux rougail saucisses de louis.
-"
+description = "Le fameux rougail saucisses de louis."
+rarity = "[commun]"
 stackable = true
 texture = ExtResource("2_76pw4")
 id = 1

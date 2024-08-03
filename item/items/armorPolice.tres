@@ -8,6 +8,7 @@ script = ExtResource("1_1ctou")
 defense = 15
 name = "armorPolice"
 description = "azeaeza"
+rarity = "[rare]"
 stackable = false
 texture = ExtResource("2_bgqxo")
 id = 200

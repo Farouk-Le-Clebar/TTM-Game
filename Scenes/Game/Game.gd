@@ -6,6 +6,8 @@ extends Node3D
 @onready var DamageOverlay = $CharacterBody3D/CanvasLayer/DamageOverlay
 @onready var DeadInterface = $UI/DeadInterface
 
+@onready var scope_inventory = $UI/InventoryInterface/ScopeInventory
+
 const PickUp = preload("res://item/pickUp/pick_up.tscn")
 var otherPlayers = {}
 
@@ -18,6 +20,7 @@ func _ready():
 	inventory_interface.set_eyes_inventory_data(MainPlayer.eyes_inventory_data)
 	inventory_interface.set_primary_weapon_inventory_data(MainPlayer.primary_weapon_inventory_data)
 	inventory_interface.set_secondary_weapon_inventory_data(MainPlayer.secondary_weapon_inventory_data)
+	inventory_interface.set_scope_inventory_data(MainPlayer.scope_inventory_data)
 	var json_like_string = '{"CMD": "NP", "uid": "%s"}' % [Global.uid]
 	WebSocket.send(json_like_string)
 	for node in get_tree().get_nodes_in_group("external_inventory"):
@@ -43,6 +46,8 @@ func _on_web_socket_client_message_received(message):
 		return
 	var cmd = json_obj["CMD"]
 
+	print("msg : ")
+	print(message)
 	if cmd == "GP":
 		var posX = str(json_obj["posX"]).to_float()
 		var posY = str(json_obj["posY"]).to_float()
@@ -86,12 +91,41 @@ func _on_web_socket_client_message_received(message):
 		_load_inventory(pocket, weapon, helmet, armor, eyes, ears)
 
 	if cmd == "RESPAWN":
-		print("respawn")
 		var life = str(json_obj["life"]).to_int()
 		var posX = str(json_obj["posX"]).to_float()
 		var posY = str(json_obj["posY"]).to_float()
 		var posZ = str(json_obj["posZ"]).to_float()
 		_respawn_player(life, posX, posY, posZ)
+
+	if cmd == "USEWEAPON":
+		print(message)
+		print("test")
+		var index = str(json_obj["index"]).to_int()
+		var inventory = json_obj["inventory"]
+		var attachement1 = json_obj["attachement1"]
+		var attachement2 = json_obj["attachement2"]
+		var attachement3 = json_obj["attachement3"]
+		_use_weapon(index, inventory, attachement1, attachement2, attachement3)
+
+func _use_weapon(index, inventory, attachement1, attachement2, attachement3) -> void:
+	if scope_inventory.visible:
+		scope_inventory.hide()
+		# remove all element from scope inventory
+	else:
+		print("show attachement inventory")
+		if attachement1 != "":
+			# new scope
+			# add attachement 1 to scope invetory
+			print("show scope")
+		if attachement2 != "":
+			# new barrel
+			# add attachement 1 to scope invetory
+			print("show barrel")
+		if attachement3 != "":
+			# new attachement
+			# add attachement 2 to scope invetory
+			print("show attachement")
+		scope_inventory.show()
 
 func _on_web_socket_client_connected_to_server():
 		var json_like_string = '{"CMD": "DP", "uid": "%s"}' % [Global.uid]
@@ -254,11 +288,10 @@ func _load_inventory(pocket, weapon, helmet, armor, eyes, ears):
 	inventory_interface.set_armor_inventory_data(MainPlayer.armor_inventory_data)
 	inventory_interface.set_eyes_inventory_data(MainPlayer.eyes_inventory_data)
 	inventory_interface.set_ears_inventory_data(MainPlayer.ears_inventory_data)
+	inventory_interface.set_scope_inventory_data(MainPlayer.scope_inventory_data)
 
 func loadItem(itemName : String, itemType : String, quantity : int):
 	var item_path = "res://item/items/" + itemName + ".tres"
-	print("itemPath")
-	print(item_path)
 	var slot_data = SlotData.new()
 	if itemType == "data":
 		slot_data.item_data = load(item_path) as ItemData
@@ -282,7 +315,4 @@ func _respawn_player(life, posX, posY, posZ):
 	Global.life = 100
 	Global.isDead = false
 	DeadInterface.hide()
-	print(posX)
-	print(posY)
-	print(posZ)
 	

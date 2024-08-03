@@ -14,6 +14,8 @@ signal drop_slot_data(slot_data : SlotData)
 @onready var primary_weapon_inventory : PanelContainer = $PrimaryWeaponInventory
 @onready var secondary_weapon_inventory : PanelContainer = $SecondaryWeaponInventory
 
+@onready var scope_inventory : PanelContainer = $ScopeInventory
+
 @onready var webSocket = $"../../WebSocketClient"
  
 var grabbed_slot_data : SlotData
@@ -58,6 +60,11 @@ func set_secondary_weapon_inventory_data(inventory_data : InventoryData) -> void
 		inventory_data.inventory_interact.connect(on_inventory_interact)
 	secondary_weapon_inventory.set_inventory_data(inventory_data)
 
+func set_scope_inventory_data(inventory_data : InventoryData) -> void:
+	if not inventory_data.inventory_interact.is_connected(on_inventory_interact):
+		inventory_data.inventory_interact.connect(on_inventory_interact)
+	scope_inventory.set_inventory_data(inventory_data)
+
 func set_external_inventory(_external_inventory_owner) -> void:
 	external_inventory_owner = _external_inventory_owner
 	var inventory_data = external_inventory_owner.inventory_data
@@ -93,8 +100,12 @@ func on_inventory_interact(inventory_data : InventoryData, index : int, button: 
 				json_like_string = '{"CMD": "DROPITEM", "uid": "%s", "index": "%d", "id": "%s", "quantity": "%d", "type": "%s"}' % [Global.uid, index, grabbed_slot_data.item_data.name, grabbed_slot_data.quantity, type]
 			grabbed_slot_data = inventory_data.drop_slot_data(grabbed_slot_data, index)
 		[null, MOUSE_BUTTON_RIGHT]:
-			inventory_data.use_slot_data(index)
-			json_like_string = '{"CMD": "USEITEM", "uid": "%s", "index": "%d"}' % [Global.uid, index]
+			var selectedData = inventory_data.get_slot_data_at_index(index)
+			if selectedData.item_data is ItemDataConsumable:
+				inventory_data.use_slot_data(index)
+				json_like_string = '{"CMD": "USEITEM", "uid": "%s", "index": "%d"}' % [Global.uid, index]
+			if selectedData.item_data is ItemDataWeapon:
+				json_like_string = '{"CMD": "USEWEAPON", "uid": "%s", "index": "%d"}' % [Global.uid, index]
 		[_, MOUSE_BUTTON_RIGHT]:
 			var type = ""
 			type = findType()
@@ -115,6 +126,8 @@ func on_inventory_interact(inventory_data : InventoryData, index : int, button: 
 			json_like_string += ', "inventory": "ears"}'
 	elif inventory_data is InventoryDataEyes:
 			json_like_string += ', "inventory": "eyes"}'
+	elif inventory_data is InventoryDataScope:
+			json_like_string += ', "inventory": "scope"}'
 	elif inventory_data is InventoryData:
 			json_like_string += ', "inventory": "pocket"}'
 	
@@ -165,5 +178,7 @@ func findType() -> String:
 		return "ears"
 	if grabbed_slot_data.item_data is ItemDataEyes:
 		return "eyes"
+	if grabbed_slot_data.item_data is ItemDataScope:
+		return "scope"
 	return "data"
 		

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemDataScope" load_steps=3 format=3 uid="uid://didguoslqjeod"]
+
+[ext_resource type="Script" path="res://item/item_data_scope.gd" id="1_n4ffo"]
+[ext_resource type="Texture2D" uid="uid://cifsa6be3s2yp" path="res://item/tres/redDot.tres" id="2_vd40r"]
+
+[resource]
+script = ExtResource("1_n4ffo")
+fov = 35
+name = "redDot"
+description = "un pointeur laser rouge"
+rarity = "[rare]"
+stackable = false
+texture = ExtResource("2_vd40r")
+id = 200

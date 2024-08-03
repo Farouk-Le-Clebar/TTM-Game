@@ -4,5 +4,5 @@ extends Node3D
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-	#var OtherPlayerAnimation = OtherPlayer.get_node("CharacterBody3D/AnimationPlayer")
-	#OtherPlayerAnimation.play("Armature|Idle")
+	var OtherPlayerAnimation = OtherPlayer.get_node("CharacterBody3D/AnimationPlayer")
+	OtherPlayerAnimation.play("Armature|Idle")

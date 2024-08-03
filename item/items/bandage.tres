@@ -14,6 +14,7 @@ feed = 0
 thirsty = 0
 name = "bandage"
 description = "salope vas"
+rarity = "[commun]"
 stackable = true
 texture = SubResource("AtlasTexture_3l4qu")
 id = 1

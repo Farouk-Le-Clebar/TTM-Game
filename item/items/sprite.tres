@@ -10,6 +10,7 @@ feed = 0
 thirsty = 20
 name = "sprite"
 description = "Un bon sprite bien frais."
+rarity = "[commun]"
 stackable = true
 texture = ExtResource("2_q6tam")
 id = 2

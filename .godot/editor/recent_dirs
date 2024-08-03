@@ -1,9 +1,12 @@
+res://item/items/
+res://assets/inventory
+res://item/tres/
+res://assets/guns
+res://models/weapons/attachements/redHot
+/home/felix/Documents/Jeux/TTM-Game/FBX2glTF-linux-x86_64
+res://assets/menu
 res://assets/font
 res://assets/characters
-res://item/items/
-res://item/tres/
-res://assets/inventory
-res://models/rifles
 res://assets
 res://player
 res://
@@ -16,7 +19,4 @@ res://Scenes/world
 res://assets/biome
 res://assets/music
 res://assets/animations
-res://assets/guns
 res://assets/loginMenu
-res://Scenes/Game
-/home/felix/Documents/Jeux/TTM/FBX2glTF-linux-x86_64

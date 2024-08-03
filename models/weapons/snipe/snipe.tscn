@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://5ntjo54g41n5"]
+
+[ext_resource type="ArrayMesh" uid="uid://br1inpwc3bvyp" path="res://assets/guns/snipe.obj" id="1_4vq38"]
+
+[sub_resource type="Animation" id="Animation_jub3k"]
+resource_name = "Shoot"
+length = 0.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.05), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o45ku"]
+_data = {
+"Shoot": SubResource("Animation_jub3k")
+}
+
+[node name="Rifle" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+mesh = ExtResource("1_4vq38")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_o45ku")
+}
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.0139289, 0.0505998, -0.590149)
+target_position = Vector3(0, 0, -1)

@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://n2vkcc8n07ah"]
+[gd_scene load_steps=7 format=3 uid="uid://n2vkcc8n07ah"]
 
+[ext_resource type="FontFile" uid="uid://rjo4f1qlah17" path="res://assets/menu/CrampsRegular-OV7od.ttf" id="1_61uig"]
 [ext_resource type="FontFile" uid="uid://b4kipanibdijo" path="res://assets/font/ROUND8-FOUR.otf" id="1_uxrve"]
+[ext_resource type="Script" path="res://Scenes/loginMenu/Password.gd" id="2_61o7t"]
 [ext_resource type="Script" path="res://login.gd" id="2_qlqo2"]
 [ext_resource type="PackedScene" uid="uid://d1r6rix6an4i5" path="res://Scenes/WebSocketScene/web_socket_client.tscn" id="3_jretk"]
 [ext_resource type="Texture2D" uid="uid://bds5u2g2acv51" path="res://assets/loginMenu/serverOffline.png" id="4_kl2gm"]
@@ -8,23 +10,24 @@
 [node name="loginMenu" type="Node2D"]
 scale = Vector2(1.6, 1.6)
 
-[node name="email" type="TextEdit" parent="."]
+[node name="Email" type="LineEdit" parent="."]
 offset_left = 421.25
 offset_top = 190.625
 offset_right = 771.25
 offset_bottom = 240.625
-theme_override_fonts/font = ExtResource("1_uxrve")
-theme_override_font_sizes/font_size = 40
-placeholder_text = "email"
+theme_override_fonts/font = ExtResource("1_61uig")
+theme_override_font_sizes/font_size = 30
+placeholder_text = "Email"
 
-[node name="password" type="TextEdit" parent="."]
+[node name="Password" type="LineEdit" parent="."]
 offset_left = 421.25
 offset_top = 280.625
 offset_right = 771.25
 offset_bottom = 330.625
-theme_override_fonts/font = ExtResource("1_uxrve")
-theme_override_font_sizes/font_size = 40
-placeholder_text = "password"
+theme_override_fonts/font = ExtResource("1_61uig")
+theme_override_font_sizes/font_size = 30
+placeholder_text = "Password"
+script = ExtResource("2_61o7t")
 
 [node name="login" type="TextureButton" parent="."]
 offset_left = 421.25

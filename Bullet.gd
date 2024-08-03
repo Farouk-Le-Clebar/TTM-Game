@@ -1,6 +1,6 @@
 extends Node3D
 
-const SPEED = 40.0
+const SPEED = 10.0
 
 @onready var mesh = $MeshInstance3D
 @onready var raycast = $RayCast3D
@@ -18,7 +18,7 @@ func _process(delta):
 		particles.emitting = true
 		raycast.enabled
 		if raycast.get_collider().is_in_group("enemy"):
-			raycast.get_collider().hit(25)
+			raycast.get_collider().hit(50)
 		await get_tree().create_timer(1.0).timeout
 		queue_free()
 

@@ -110,3 +110,6 @@ func remove_item_to_inventory(index: int) -> bool:
 		slot_datas[index] = null
 		return true
 	return false
+
+func get_slot_data_at_index(index: int) -> SlotData:
+	return slot_datas[index]

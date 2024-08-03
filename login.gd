@@ -2,8 +2,8 @@ extends TextureButton
 
 var websocket_url = "ws://localhost:8765"
 var messageToSend = ""
-@onready var email : TextEdit = get_parent().get_node("email")
-@onready var password : TextEdit = get_parent().get_node("password")
+@onready var email : LineEdit = $"../Email"
+@onready var password : LineEdit = $"../Password"
 @onready var WebSocket = $WebSocketClient
 @onready var circleState : Sprite2D = get_parent().get_node("serverState").get_node("circleState")
 @onready var labelState : Label = get_parent().get_node("serverState").get_node("LabelState")
@@ -12,13 +12,6 @@ var messageToSend = ""
 
 func _connect_to_game():
 	var error = WebSocket.connect_to_url(websocket_url)
-	
-	if error != OK:
-		print("ERROR: connection to websocket: %s" % [websocket_url])
-		if labelState.text != "Server ON":
-			labelState.text = "Server ON"
-			circleState.texture = textureServerOn
-		return
 	
 	if labelState.text != "Server ON":
 		labelState.text = "Server ON"
@@ -51,7 +44,10 @@ func _on_web_socket_client_connected_to_server():
 
 func _on_web_socket_client_connection_closed():
 	var ws = WebSocket.get_socket()
-	print("Client disconnected with code %s, reason: %s" % [ws.get_close_code(), ws.get_close_reason()]) 
+	print("Client disconnected with code %s, reason: %s" % [ws.get_close_code(), ws.get_close_reason()])
+	if ws.get_close_code() == -1:
+		labelState.text = "Server OFF"
+		circleState.texture = textureServerOff
 
 func _on_pressed():
 	if email.text != "" and password.text != "":	
